@@ -1,12 +1,11 @@
-from flask import Flask, jsoni
+from flask import Flask, jsonify
 import datetime
 
-return jsonify({"message": "Hello DevOps!", "status": "running"})app = Flask(__name__)
+app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return jsonify({"message": "Hello from Team A! and B!", "status": "running"})
-
+    return jsonify({"message": "Hello from Team A and B!", "status": "running"})
 
 @app.route("/health")
 def health():
@@ -15,11 +14,9 @@ def health():
         "timestamp": datetime.datetime.now().isoformat()
     })
 
-
 @app.route("/version")
 def version():
     return jsonify({"version": "1.0.0", "app": "devops-journey"})
 
-
-if __name__ == "__main__": app.run(host="0.0.0.0", port=5000)
-
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
