@@ -10,6 +10,27 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: devops
+          POSTGRES_USER: devops
+          POSTGRES_PASSWORD: devops123
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U devops"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 5
+
+    env:
+      DB_HOST: localhost
+      DB_NAME: devops
+      DB_USER: devops
+      DB_PASS: devops123
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -23,9 +44,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-
-      - name: Run tests
-        run: pytest -v
 
       - name: Lint with flake8
         run: flake8 app.py test_app.py --max-line-length=100

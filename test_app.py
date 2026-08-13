@@ -47,3 +47,15 @@ def test_not_found(client):
     """Test: route មិនមាន ត្រូវ return 404"""
     response = client.get("/does-not-exist")
     assert response.status_code == 404
+
+def test_visits_increments(client):
+    """Test: /visits ត្រូវ return count ដែលកើនឡើង"""
+    first = client.get("/visits").get_json()["total_visits"]
+    second = client.get("/visits").get_json()["total_visits"]
+    assert second == first + 1
+
+
+def test_visits_status_code(client):
+    """Test: GET /visits ត្រូវ return 200"""
+    response = client.get("/visits")
+    assert response.status_code == 200
