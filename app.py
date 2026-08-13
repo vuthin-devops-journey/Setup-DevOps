@@ -1,11 +1,11 @@
-from flask import Flask, jsonify
+from flask import Flask, jsoni
 import datetime
 
-app = Flask(__name__)
+return jsonify({"message": "Hello DevOps!", "status": "running"})app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return jsonify({"message": "Hello DevOps!", "status": "running"})
+    return jsonify({"message": "Hello from Team A!", "status": "running"})
 
 @app.route("/health")
 def health():
