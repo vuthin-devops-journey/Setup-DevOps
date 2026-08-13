@@ -1,7 +1,21 @@
-from flask import Flask, jsonify
 import datetime
+import os
+
+import psycopg2
+from flask import Flask, jsonify
 
 app = Flask(__name__)
+
+DB_HOST = os.environ.get("DB_HOST", "localhost")
+DB_NAME = os.environ.get("DB_NAME", "devops")
+DB_USER = os.environ.get("DB_USER", "devops")
+DB_PASS = os.environ.get("DB_PASS", "devops123")
+
+
+def get_db():
+    return psycopg2.connect(
+        host=DB_HOST, dbname=DB_NAME, user=DB_USER, password=DB_PASS
+    )
 
 
 @app.route("/")
@@ -20,6 +34,23 @@ def health():
 @app.route("/version")
 def version():
     return jsonify({"version": "1.0.0", "app": "devops-journey"})
+
+
+@app.route("/visits")
+def visits():
+    conn = get_db()
+    cur = conn.cursor()
+    cur.execute(
+        "CREATE TABLE IF NOT EXISTS visits (id SERIAL PRIMARY KEY, "
+        "visited_at TIMESTAMP DEFAULT NOW())"
+    )
+    cur.execute("INSERT INTO visits DEFAULT VALUES")
+    cur.execute("SELECT COUNT(*) FROM visits")
+    count = cur.fetchone()[0]
+    conn.commit()
+    cur.close()
+    conn.close()
+    return jsonify({"total_visits": count})
 
 
 if __name__ == "__main__":
