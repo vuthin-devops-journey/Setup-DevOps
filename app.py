@@ -5,7 +5,8 @@ return jsonify({"message": "Hello DevOps!", "status": "running"})app = Flask(__n
 
 @app.route("/")
 def home():
-    return jsonify({"message": "Hello from Team A!", "status": "running"})
+    return jsonify({"message": "Hello from Team A! and B!", "status": "running"})
+
 
 @app.route("/health")
 def health():
@@ -21,5 +22,4 @@ def version():
 
 
 if __name__ == "__main__": app.run(host="0.0.0.0", port=5000)
-
 
