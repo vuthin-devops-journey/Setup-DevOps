@@ -5,6 +5,7 @@ services:
       - "5000:5000"
     environment:
       DB_HOST: db
+      DB_PORT: "5432"
       DB_NAME: devops
       DB_USER: devops
       DB_PASS: devops123
@@ -15,7 +16,7 @@ services:
   db:
     image: postgres:16-alpine
     ports:
-      - "5432:5432"
+      - "5433:5432"
     environment:
       POSTGRES_DB: devops
       POSTGRES_USER: devops

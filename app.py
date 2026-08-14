@@ -10,13 +10,13 @@ DB_HOST = os.environ.get("DB_HOST", "localhost")
 DB_NAME = os.environ.get("DB_NAME", "devops")
 DB_USER = os.environ.get("DB_USER", "devops")
 DB_PASS = os.environ.get("DB_PASS", "devops123")
-
+DB_PORT = os.environ.get("DB_PORT", "5432")
 
 def get_db():
     return psycopg2.connect(
-        host=DB_HOST, dbname=DB_NAME, user=DB_USER, password=DB_PASS
+        host=DB_HOST, port=DB_PORT, dbname=DB_NAME,
+        user=DB_USER, password=DB_PASS
     )
-
 
 @app.route("/")
 def home():
