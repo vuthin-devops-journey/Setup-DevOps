@@ -1,3 +1,4 @@
+
 import datetime
 import os
 
@@ -12,11 +13,13 @@ DB_USER = os.environ.get("DB_USER", "devops")
 DB_PASS = os.environ.get("DB_PASS", "devops123")
 DB_PORT = os.environ.get("DB_PORT", "5432")
 
+
 def get_db():
     return psycopg2.connect(
         host=DB_HOST, port=DB_PORT, dbname=DB_NAME,
         user=DB_USER, password=DB_PASS
     )
+
 
 @app.route("/")
 def home():
@@ -55,3 +58,4 @@ def visits():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
