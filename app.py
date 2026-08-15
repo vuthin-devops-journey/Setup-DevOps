@@ -35,7 +35,7 @@ def health():
 
 @app.route("/version")
 def version():
-    return jsonify({"version": "1.0.0", "app": "devops-journey"})
+    return jsonify({"version": "2.0.0", "app": "devops-journey"})
 
 
 @app.route("/visits")

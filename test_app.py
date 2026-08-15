@@ -39,7 +39,7 @@ def test_health_response(client):
 def test_version_response(client):
     """GET /version should return correct version"""
     data = client.get("/version").get_json()
-    assert data["version"] == "1.0.0"
+    assert data["version"] == "2.0.0"
     assert data["app"] == "devops-journey"
 
 
