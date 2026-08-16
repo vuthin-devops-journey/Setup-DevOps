@@ -24,3 +24,6 @@ resources:
 
 probes:
   path: /health
+
+metrics:
+  enabled: true
