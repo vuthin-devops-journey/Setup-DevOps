@@ -277,3 +277,83 @@ Variables (`$AMI_ID`, `$SG_ID`) រស់នៅតែក្នុង terminal se
 
     timed out  → packets មិនដល់ → firewall/SG/network layer
     refused    → ដល់ តែគ្មាន service → application layer
+
+---
+
+## 📍 ឈុតបន្ថែម: SSH Timeout — Network Layer Debugging
+
+**បញ្ហា:** `ssh: connect to host ... port 22: Connection timed out`
+
+**ដំណើរ debug:**
+
+1. ពិនិត្យ SG rule → `InvalidPermission.Duplicate` = rule មាន IP
+   បច្ចុប្បន្នរួចហើយ ✅ (SG មិនមែនបញ្ហា)
+2. Test network path ដោយ curl:
+
+       curl -v telnet://$PUBLIC_IP:22 --max-time 8
+       → Connection timed out
+
+3. សន្និដ្ឋាន: packets មិនដល់ = network layer មិនមែន SSH/key
+
+**មូលហេតុទំនងបំផុត:** ISP ឬ network block **outbound port 22**
+(policy ការពារ SSH scanning) — កើតឡើងញឹកញាប់នៅ ISP មួយចំនួន
+និង corporate networks។
+
+**ដំណោះស្រាយ ៣:**
+
+| វិធី | អត្ថប្រយោជន៍ |
+|---|---|
+| EC2 Instance Connect (browser) | គ្មាន port 22 ចាំបាច់, ០ setup |
+| SSM Session Manager | ឆ្លង port 443, គ្មាន keys, audit log ← **production!** |
+| Test port 80 | បញ្ជាក់ថាបញ្ហាជា port 22 ជាក់លាក់ |
+
+**មេរៀនធំ — Session Manager > SSH នៅ production:**
+- គ្មាន SSH keys ត្រូវគ្រប់គ្រង/rotate
+- គ្មាន inbound ports បើក (SG អាចបិទ 22 ទាំងស្រុង!)
+- គ្មាន public IP ចាំបាច់ (instances ក្នុង private subnet)
+- Audit log ពេញលេញក្នុង CloudTrail
+
+**Timeout vs Refused (ចាំជានិច្ច):**
+
+    timed out  → packets មិនដល់ → firewall/SG/network layer
+    refused    → ដល់ តែគ្មាន service → application layer
+
+---
+
+## 📍 ឈុតបន្ថែម: SSH Timeout — Network Layer Debugging
+
+**បញ្ហា:** `ssh: connect to host ... port 22: Connection timed out`
+
+**ដំណើរ debug:**
+
+1. ពិនិត្យ SG rule → `InvalidPermission.Duplicate` = rule មាន IP
+   បច្ចុប្បន្នរួចហើយ ✅ (SG មិនមែនបញ្ហា)
+2. Test network path ដោយ curl:
+
+       curl -v telnet://$PUBLIC_IP:22 --max-time 8
+       → Connection timed out
+
+3. សន្និដ្ឋាន: packets មិនដល់ = network layer មិនមែន SSH/key
+
+**មូលហេតុទំនងបំផុត:** ISP ឬ network block **outbound port 22**
+(policy ការពារ SSH scanning) — កើតឡើងញឹកញាប់នៅ ISP មួយចំនួន
+និង corporate networks។
+
+**ដំណោះស្រាយ ៣:**
+
+| វិធី | អត្ថប្រយោជន៍ |
+|---|---|
+| EC2 Instance Connect (browser) | គ្មាន port 22 ចាំបាច់, ០ setup |
+| SSM Session Manager | ឆ្លង port 443, គ្មាន keys, audit log ← **production!** |
+| Test port 80 | បញ្ជាក់ថាបញ្ហាជា port 22 ជាក់លាក់ |
+
+**មេរៀនធំ — Session Manager > SSH នៅ production:**
+- គ្មាន SSH keys ត្រូវគ្រប់គ្រង/rotate
+- គ្មាន inbound ports បើក (SG អាចបិទ 22 ទាំងស្រុង!)
+- គ្មាន public IP ចាំបាច់ (instances ក្នុង private subnet)
+- Audit log ពេញលេញក្នុង CloudTrail
+
+**Timeout vs Refused (ចាំជានិច្ច):**
+
+    timed out  → packets មិនដល់ → firewall/SG/network layer
+    refused    → ដល់ តែគ្មាន service → application layer
