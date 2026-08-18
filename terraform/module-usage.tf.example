@@ -1,0 +1,13 @@
+# ឧទាហរណ៍ការប្រើ module (rename ជា .tf ដើម្បីប្រើពិត)
+module "app_server" {
+  source = "./modules/web-server"
+
+  name             = "devops-module"
+  instance_type    = var.instance_type
+  container_image  = "ghcr.io/vuthin-devops-journey/setup-devops:latest"
+  allowed_ssh_cidr = "${chomp(data.http.my_ip.response_body)}/32"
+}
+
+output "module_app_url" {
+  value = "http://${module.app_server.public_ip}/health"
+}
