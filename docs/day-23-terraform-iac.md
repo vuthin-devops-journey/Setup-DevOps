@@ -228,3 +228,29 @@ architecture diagram, stack table, key implementation details,
 - Module មិនគួរមាន hardcoded values — គ្រប់អ្វីជា variables
 - Outputs ត្រូវបង្ហាញអ្វីដែល caller ត្រូវការ (IDs, IPs)
 - `terraform fmt -recursive` ដើម្បីរាប់បញ្ចូល modules
+
+## 📍 បន្ថែម: Modules — កូដប្រើឡើងវិញ
+
+    terraform/modules/web-server/
+    ├── main.tf       (SG + EC2 + user_data)
+    ├── variables.tf  (name, instance_type, container_image, allowed_ssh_cidr)
+    └── outputs.tf    (instance_id, public_ip, security_group_id)
+
+**ការប្រើ:**
+
+    module "app_server" {
+      source           = "./modules/web-server"
+      name             = "devops-module"
+      container_image  = "ghcr.io/.../setup-devops:latest"
+      allowed_ssh_cidr = "1.2.3.4/32"
+    }
+
+**ហេតុអ្វីសំខាន់:** ចង់បាន dev/staging/prod? ហៅ module ៣ ដង
+ជាមួយ values ខុសគ្នា — មិនមែន copy code ៣ ដង។ កែ logic ម្តង
+→ ប៉ះពាល់ទាំងអស់។
+
+**Best practices:**
+- Module មិនគួរមាន hardcoded values — គ្រប់អ្វីជា variables
+- Outputs បង្ហាញអ្វីដែល caller ត្រូវការ (IDs, IPs)
+- `terraform fmt -recursive` ដើម្បីរាប់បញ្ចូល modules
+- Module ខ្លួនឯងមិនកំណត់ provider — caller ជាអ្នកកំណត់
