@@ -254,3 +254,22 @@ architecture diagram, stack table, key implementation details,
 - Outputs បង្ហាញអ្វីដែល caller ត្រូវការ (IDs, IPs)
 - `terraform fmt -recursive` ដើម្បីរាប់បញ្ចូល modules
 - Module ខ្លួនឯងមិនកំណត់ provider — caller ជាអ្នកកំណត់
+
+## 📍 បន្ថែម: Warning ដែលមិនអាចជួសជុលបាន (Third-party Dependency)
+
+**បញ្ហា:** Node.js 20 deprecation warning នៅដដែលក្រោយ update
+action pins ទៅ v5/v4។
+
+**ការវិភាគ:** Warning មិនមែនមកពី version ដែលយើងកំណត់ទេ —
+វាមកពី **ខាងក្នុង** action.yml របស់ hashicorp/setup-terraform@v4
+ខ្លួនឯង ដែលនៅតែប្រកាសត្រូវការ Node.js 20 runtime (HashiCorp
+មិនទាន់ upgrade)។
+
+**មេរៀនសំខាន់:** ការ update version pin ធានាតែ "អ្នកប្រើ latest
+release" — មិនធានាថា dependency នោះខ្លួនឯង up-to-date ខាងក្នុង។
+Third-party actions មានវដ្ត release ខុសពីយើង។
+
+**សំណេច:** ព្រងើយកន្តើយ warning នេះ (job នៅតែ Success ✅) —
+ចាំ HashiCorp release version ថ្មីដែល declare Node 24។ នេះជា
+pattern ធម្មតា — DevOps engineers ត្រូវសម្គាល់ "warning មិនប៉ះពាល់"
+ពី "error ត្រូវជួសជុលភ្លាម"។
