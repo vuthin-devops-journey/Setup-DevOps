@@ -25,7 +25,10 @@ def get_db():
 
 @app.route("/")
 def home():
-    return jsonify({"message": "Hello from Team A and B!", "status": "running"})
+    return jsonify({
+        "message": "Hello from Team A and B!",
+        "status": "running"
+    })
 
 
 @app.route("/health")

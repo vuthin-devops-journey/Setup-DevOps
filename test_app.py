@@ -60,3 +60,22 @@ def test_visits_status_code(client):
     """GET /visits should return 200"""
     response = client.get("/visits")
     assert response.status_code == 200
+
+
+def test_metrics_status_code(client):
+    """GET /metrics should return 200"""
+    response = client.get("/metrics")
+    assert response.status_code == 200
+
+
+def test_metrics_contains_request_counter(client):
+    """Metrics should expose flask_http_request_total counter"""
+    response = client.get("/metrics")
+    assert b"flask_http_request_total" in response.data
+
+
+def test_metrics_contains_app_info(client):
+    """Metrics should expose custom app_info with version"""
+    response = client.get("/metrics")
+    assert b"app_info" in response.data
+    assert b'version="2.0.0"' in response.data
