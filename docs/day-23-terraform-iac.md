@@ -170,3 +170,36 @@ Terminal បញ្ជូនបន្ទាត់បន្ទាប់ជាច�
 - Remote state (S3 + DynamoDB locking)
 - Modules (កូដប្រើឡើងវិញ)
 - EKS ជាមួយ Terraform ☸️☁️
+
+---
+
+## 📍 បន្ថែម: Terraform CI + Portfolio README
+
+**Terraform validation workflow** (.github/workflows/terraform.yml):
+
+    on:
+      pull_request:
+        paths: ['terraform/**']    ← run តែពេល .tf ប្តូរ!
+    steps:
+      - terraform fmt -check -recursive
+      - terraform init -backend=false
+      - terraform validate
+
+**ហេតុអ្វីដើរដោយគ្មាន credentials:** `fmt`, `init -backend=false`,
+និង `validate` មិនត្អូញត្អែរ AWS — គ្រាន់តែពិនិត្យ syntax និង logic។
+នេះជាមូលហេតុ CI ជាច្រើនបំបែក pipeline ជា ២ ដំណាក់:
+
+| ដំណាក់ | Commands | Credentials |
+|---|---|---|
+| PR | fmt, validate | ❌ មិនត្រូវការ |
+| main | plan, apply | ✅ (secrets/OIDC) |
+
+**`paths:` filter** = សន្សំ CI minutes ហើយ pipeline លឿន —
+កុំ run terraform checks ពេលកែតែ docs!
+
+**README ធ្វើបច្ចុប្បន្នភាព** ជា portfolio centerpiece:
+architecture diagram, stack table, key implementation details,
+និងពាក្យបញ្ជា run សម្រាប់គ្រប់ layer (compose, k8s, terraform)។
+
+**មេរៀន documentation:** កត់ត្រានៅពេលមានមេរៀន ឬការរកឃើញ —
+មិនមែនរាល់ commit។ docs/ ត្រូវមានតម្លៃក្នុងការអាន មិនមែនតែច្រើន file។
