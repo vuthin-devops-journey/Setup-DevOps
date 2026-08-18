@@ -2,7 +2,7 @@ replicaCount: 2
 
 image:
   repository: ghcr.io/vuthin-devops-journey/setup-devops
-  tag: 79e59854c358df16ae6f30095325fdd524282ebc
+  tag: a9510d049dc51df4ad7131aa36b2e77c7bd1b7db
   pullPolicy: IfNotPresent
 
 service:
